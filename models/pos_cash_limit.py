@@ -7,8 +7,8 @@ import logging
 import pytz
 
 
-class QuemenRetirosEfectivo(models.Model):
-    _name = "pos_chash_limit.retiros_efectivo"
+class PosCashLimitRetirosEfectivo(models.Model):
+    _name = "pos_cash_limit.retiros_efectivo"
     _description = "Retiros de POS"
 
     def _denominacion_actual(self):
@@ -46,7 +46,7 @@ class QuemenRetirosEfectivo(models.Model):
     tienda_id = fields.Many2one('pos.config','tienda', related='sesion_id.config_id', store=True)
     motivo = fields.Char('Motivo', required=True, default = "Retiro de efectivo")
     total = fields.Float('Total', compute='_calcular_total')
-    denominacion_ids = fields.One2many('quemen.retiro_denominacion','retiro_id',string="Denominaciones",default=_denominacion_actual)
+    denominacion_ids = fields.One2many('pos_cash_limit.retiro_denominacion','retiro_id',string="Denominaciones",default=_denominacion_actual)
     state = fields.Selection(
     [('borrador', 'Borrador'), ('confirmado', 'Confirmado')],
     'Estado', readonly=True, copy=False, default= "borrador")
@@ -64,7 +64,7 @@ class QuemenRetirosEfectivo(models.Model):
                 seq_date = None
                 if 'company_id' in vals:
                     vals['name'] = self.env['ir.sequence'].with_context(force_company=vals['company_id']).next_by_code(
-                        'quemen.retiros', sequence_date=seq_date) or _('New')
+                        'pos_chash_limit.retiros', sequence_date=seq_date) or _('New')
                 else:
                     vals['name'] = secuencia_id._next() or _('New')
         result = super(QuemenRetirosEfectivo, self).create(vals_list)
@@ -76,9 +76,9 @@ class QuemenRetirosEfectivo(models.Model):
             retiro.write({'state': 'confirmado'})
 
 
-class QuemenRetiros(models.Model):
-    _name = "pos_chash_limit.retiro_denominacion"
+class PosCashLimitRetiros(models.Model):
+    _name = "pos_cash_limit.retiro_denominacion"
 
-    retiro_id = fields.Many2one('quemen.retiros_efectivo','Retiro')
+    retiro_id = fields.Many2one('pos_cash_limit.retiros_efectivo','Retiro')
     denominacion_id = fields.Many2one('pos.bill','Denominacion')
     cantidad = fields.Integer('Cantidad')
