@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_cash_limit_view_pos_session_form" model="ir.ui.view">
+        <field name="name">pos_cash_limit.pos.session.form.view</field>
+        <field name="model">pos.session</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+        <field name="arch" type="xml">
+            <group>
+                <field name="cash_register_total_entry_encoding"/>
+                <field name="saldo_apartura"/>
+                <field name="total_efectivo_caja"/>
+                <field name="pagos_efectivo"/>
+                <field name="retiros_efectivo"/>
+            </group>
+        </field>
+    </record>
+
+</odoo>

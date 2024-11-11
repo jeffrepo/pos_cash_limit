@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="vale_retiro">
+        <t t-call="web.html_container">
+            <t t-set="data_report_margin_top" t-value="1"/>
+            <t t-set="data_report_header_spacing" t-value="1"/>
+            <t t-set="data_report_dpi" t-value="110"/>
+            <t t-foreach="docs" t-as="o">
+                <div class="article">
+                    <div class="page">
+                        <center><strong>Vale de retiro</strong></center>
+                        <table style="margin: 0 auto;width:100%;">
+                            <tr>
+                                <td>Sucursal:</td>
+                                <td><span t-field="o.sesion_id.config_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td>Folio:</td>
+                                <td><span t-field="o.name"/></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        Fecha: <span t-field="o.fecha_hora" t-options='{"format": "dd MM y h:mm a"}'/><br/>
+                        Nombre de cajero(a): <span t-field="o.cajero"/><br/>
+                        <br/>
+                        <table style="margin: 0 auto;width:100%;">
+                            <thead>
+                                <tr>
+                                    <th><span>Cantidad</span></th>
+                                    <th><span>Denominación</span></th>
+                                    <th class="text-right"><span>Importe</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.denominacion_ids" t-as="linea">
+                                    <t t-set="denominacion" t-value="''"/>
+
+                                    <!-- <t t-if="linea.denominacion == 'billete'">
+                                        <t t-set="denominacion" t-value="'Billete(s)'"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="denominacion" t-value="'Moneda(s)'"/>
+                                    </t> -->
+                                    <t t-if="linea.cantidad > 0">
+                                        <tr>
+                                            <td><span t-esc="linea.cantidad"/></td>
+                                            <td><span t-esc="linea.denominacion_id.value"/></td>
+                                            <td class="text-right"><span t-esc="linea.denominacion_id.value * linea.cantidad"/></td>
+                                            <!-- <td class="text-right"><span t-esc="linea.subtotal"/></td> -->
+                                        </tr>
+                                    </t>
+                                </t>
+                                <tr>
+                                        <td></td>
+                                        <td><strong>Total:</strong></td>
+                                        <td  class="text-right"><span t-esc="o.total"/></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        <table style="margin: 0 auto;width:100%;">
+                            <tr>
+                                <td style="border-top: 1px solid #111;text-align:center">Firma</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

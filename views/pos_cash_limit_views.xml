@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_pos_cash_limit_retiros_tree" model="ir.ui.view">
+            <field name="name">pos_cash_limit.retiros.tree</field>
+            <field name="model">pos_cash_limit.retiros_efectivo</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Retiros POS">
+                    <field name="name"/>
+                    <field name="cajero"/>
+                    <field name="tienda_id"/>
+                    <field name="sesion_id"/>
+                    <field name="fecha_hora"/>
+                    <field name="usuario_id"/>
+                    <field name="motivo"/>
+                    <field name="total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_pos_cash_limit_retiros_form" model="ir.ui.view">
+            <field name="name">pos_cash_limit.retiros.form</field>
+            <field name="model">pos_cash_limit.retiros_efectivo</field>
+            <field name="arch" type="xml">
+                <form string="Retiros">
+                    <header>
+                        <button string="Confirmar" class="oe_highlight" name="confirmar_retiro" type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="borrador,confirmado"/>
+
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="sesion_id"/>
+                                <field name="motivo"/>
+                                <field name="usuario_id"/>
+                                <field name="cajero"/>
+                            </group>
+                            <group>
+                                <!-- <field name="cash_box_id"/> -->
+                                <field name="fecha_hora"/>
+                                <field name="total"/>
+                                <field name="entregado"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Denominaciones" name="denominaciones">
+                                <field name="denominacion_ids">
+                                        <tree editable="bottom">
+                                            <field name="denominacion_id"/>
+                                            <field name="cantidad"/>
+                                        </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="pos_cash_limit_retiros_view_search" model="ir.ui.view">
+            <field name="name">pos_cash_limit.retiros.search</field>
+            <field name="model">pos_cash_limit.retiros_efectivo</field>
+            <field name="arch" type="xml">
+                <search string="Retiros">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_pos_cash_limit_retiros" model="ir.actions.act_window">
+            <field name="name">Retiros POS</field>
+            <field name="res_model">pos_cash_limit.retiros_efectivo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain"></field>
+            <field name="context"></field>
+            <field name="search_view_id" ref="pos_cash_limit_retiros_view_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click para crear un retiro
+                </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_pos_cash_limit_retiros"
+            name="Retiros POS"
+            action="action_pos_cash_limit_retiros"
+            parent="point_of_sale.menu_point_of_sale"
+            sequence="75"/>
+
+    </data>
+</odoo>
