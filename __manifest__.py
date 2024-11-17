@@ -27,5 +27,6 @@
         'point_of_sale.assets': [
             'pos_cash_limit/static/src/js/**/*',
         ],
+    },
     'license': 'LGPL-3',
 }
