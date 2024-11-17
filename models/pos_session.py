@@ -20,7 +20,6 @@ class PosSession(models.Model):
             total_saldo_apertura = 0
             efectivo_caja = 0
             retiros = 0
-            # cash_register_total_entry_encoding = sesion.​cash_register_total_entry_encoding
             if len(sesion.cash_register_id.line_ids):
                 for linea in sesion.cash_register_id.line_ids:
                     if linea.amount < 0:
@@ -28,7 +27,6 @@ class PosSession(models.Model):
                     if "Opening" in linea.payment_ref:
                         total_saldo_apertura += linea.amount
             sesion.saldo_apartura = total_saldo_apertura
-            # efectivo_caja = ​cash_register_total_entry_encoding - total_saldo_apertura + retiros
             sesion.total_efectivo_caja = efectivo_caja
             sesion.retiros_efectivo = retiros
 

@@ -17,6 +17,7 @@
     'depends': ['point_of_sale'],
 
     'data': [
+        'data/paperformat_ticket.xml',
         'views/pos_cash_limit_views.xml',
         'views/pos_session_view.xml',
         'views/pos_config_view.xml',
@@ -24,8 +25,7 @@
     ],
     'assets':{
         'point_of_sale.assets': [
-            'quemen/static/src/js/Screens/PaymentScreen/PaymentScreen.js',
+            'pos_cash_limit/static/src/js/**/*',
         ],
-    },
     'license': 'LGPL-3',
 }

@@ -67,7 +67,7 @@ class PosCashLimitRetirosEfectivo(models.Model):
                         'pos_chash_limit.retiros', sequence_date=seq_date) or _('New')
                 else:
                     vals['name'] = secuencia_id._next() or _('New')
-        result = super(QuemenRetirosEfectivo, self).create(vals_list)
+        result = super(PosCashLimitRetirosEfectivo, self).create(vals_list)
         return result
 
     def confirmar_retiro(self):

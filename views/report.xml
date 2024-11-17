@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="pos_cash_limit_vale_retiro" model="ir.actions.report">
+            <field name="name">Vale de retiro</field>
+            <field name="model">pos_cash_limit.retiros_efectivo</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">pos_cash_limit.vale_retiro</field>
+            <field name="report_file">pos_cash_limit.vale_retiro</field>
+            <field name="print_report_name">'Vale de retiro'</field>
+            <field name="binding_model_id" ref="pos_cash_limit.model_pos_cash_limit_retiros_efectivo"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="pos_cash_limit.paperformat_ticket"/>
+        </record>
+
+    </data>
+</odoo>
