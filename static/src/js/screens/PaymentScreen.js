@@ -76,7 +76,7 @@ odoo.define('pos_cash_limit.PaymentScreen', function(require) {
                     total_efectivo = (pagos_efectivo+ventaEfectivoActual) - retiros_efectivo;
 
                     if (total_efectivo >= efectivoMaximo){
-                        var url = "";
+                        var url = "https://cafebrujula-test-16495756.dev.odoo.com/web#menu_id=219&cids=1&action=663&model=pos_cash_limit.retiros_efectivo&view_type=list";
                         window.open(url, "_blank");
                         return await Gui.showPopup('ErrorPopup', {
                                 'title': _t("POS error"),
