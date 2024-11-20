@@ -18,6 +18,8 @@
 
     'data': [
         'data/paperformat_ticket.xml',
+        'views/vale_retiro.xml',
+        'views/report.xml',
         'views/pos_cash_limit_views.xml',
         'views/pos_session_view.xml',
         'views/pos_config_view.xml',
