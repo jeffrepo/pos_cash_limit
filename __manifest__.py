@@ -21,13 +21,13 @@
         'views/vale_retiro.xml',
         'views/report.xml',
         'views/pos_cash_limit_views.xml',
-        'views/pos_session_view.xml',
+        #'views/pos_session_view.xml',
         'views/pos_config_view.xml',
 
     ],
-    'assets':{
-        'point_of_sale.assets': [
-            'pos_cash_limit/static/src/js/**/*',
+    'assets': {
+        'point_of_sale._assets_pos': [
+            'pos_cash_limit/static/src/app/patches/payment_screen_patch.js',
         ],
     },
     'license': 'LGPL-3',

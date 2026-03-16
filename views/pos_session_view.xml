@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
         <field name="arch" type="xml">
             <group>
-                <field name="cash_register_total_entry_encoding"/>
+                <!-- <field name="cash_register_total_entry_encoding"/> -->
                 <field name="saldo_apartura"/>
                 <field name="total_efectivo_caja"/>
                 <field name="pagos_efectivo"/>

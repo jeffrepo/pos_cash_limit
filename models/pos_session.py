@@ -14,23 +14,23 @@ class PosSession(models.Model):
     pagos_efectivo = fields.Float('Pagos efectivo',  compute='_calcular_pagos_efectivo', store=True)
     retiros_efectivo = fields.Float('Retiros efectivo', compute='_calcular_apertura_retiro_efectivo')
 
-    @api.depends('cash_register_total_entry_encoding', 'cash_register_id.line_ids')
+    @api.depends('cash_register_balance_start','statement_line_ids')
     def _calcular_apertura_retiro_efectivo(self):
         for sesion in self:
             total_saldo_apertura = 0
             efectivo_caja = 0
             retiros = 0
-            if len(sesion.cash_register_id.line_ids):
-                for linea in sesion.cash_register_id.line_ids:
+            if len(sesion.statement_line_ids):
+                for linea in sesion.statement_line_ids:
                     if linea.amount < 0:
                         retiros += (linea.amount*-1)
-                    if "Opening" in linea.payment_ref:
-                        total_saldo_apertura += linea.amount
-            sesion.saldo_apartura = total_saldo_apertura
+                    # if "Opening" in linea.payment_ref:
+                    #     total_saldo_apertura += linea.amount
+            sesion.saldo_apartura = sesion.cash_register_balance_start
             sesion.total_efectivo_caja = efectivo_caja
             sesion.retiros_efectivo = retiros
 
-    @api.depends('order_ids','cash_register_total_entry_encoding')
+    @api.depends('order_ids','cash_register_balance_start','statement_line_ids')
     def _calcular_pagos_efectivo(self):
         for sesion in self:
             pago_ids = self.env['pos.payment'].search([('session_id','=',sesion.id)])
@@ -41,3 +41,8 @@ class PosSession(models.Model):
                         efectivo += pago.amount
 
             sesion.pagos_efectivo = efectivo
+
+    def _load_pos_data_fields(self, config_id):
+        fields = super()._load_pos_data_fields(config_id)
+        fields += ['pagos_efectivo', 'retiros_efectivo']
+        return fields

@@ -7,3 +7,4 @@ class PosConfig(models.Model):
 
     efectivo_maximo = fields.Float(string="Efectivo máxmio")
     secuencia_id = fields.Many2one('ir.sequence', 'Secuencia')
+    diario_efectivo_id = fields.Many2one('account.journal','Diario efectivo')
