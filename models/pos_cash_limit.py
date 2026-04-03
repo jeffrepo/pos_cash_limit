@@ -72,9 +72,10 @@ class PosCashLimitRetirosEfectivo(models.Model):
 
     def confirmar_retiro(self):
         for retiro in self:
-            diario_id = retiro.sesion_id.config_id.diario_efectivo_id
-            retiro.sesion_id.statement_line_ids.create({'pos_session_id': retiro.sesion_id.id, 'payment_ref': retiro.motivo, 'amount': retiro.total*-1, 'journal_id': diario_id.id})
-            retiro.write({'state': 'confirmado'})
+            if retiro.state != 'confirmado':
+                diario_id = retiro.sesion_id.config_id.diario_efectivo_id
+                retiro.sesion_id.statement_line_ids.create({'pos_session_id': retiro.sesion_id.id, 'payment_ref': retiro.motivo, 'amount': retiro.total*-1, 'journal_id': diario_id.id})
+                retiro.write({'state': 'confirmado'})
 
 
 class PosCashLimitRetiros(models.Model):
