@@ -38,10 +38,6 @@ patch(PaymentScreen.prototype, {
             return;
         }
 
-        console.log("efectivoMaximo", efectivoMaximo);
-        console.log("sesionId", sesionId);
-        console.log("ventaEfectivoActual", ventaEfectivoActual);
-
         if (!sesionId || !efectivoMaximo) {
             return await super.validateOrder(isForceValidate);
         }
@@ -54,7 +50,6 @@ patch(PaymentScreen.prototype, {
                 [[["id", "=", sesionId]], ["pagos_efectivo", "retiros_efectivo"]]
             );
         } catch (error) {
-            console.error("Error consultando sesión POS", error);
             this.dialog.add(AlertDialog, {
                 title: _t("Error"),
                 body: _t("No se pudo consultar la sesión actual."),
@@ -62,26 +57,31 @@ patch(PaymentScreen.prototype, {
             return;
         }
 
-        console.log("sesion", sesion);
-
         if (!sesion || !sesion.length) {
             return await super.validateOrder(isForceValidate);
         }
 
         const pagosEfectivo = Number(sesion[0].pagos_efectivo || 0);
         const retirosEfectivo = Number(sesion[0].retiros_efectivo || 0);
-        const totalEfectivo = pagosEfectivo + ventaEfectivoActual - retirosEfectivo;
 
-        console.log("pagosEfectivo", pagosEfectivo);
-        console.log("retirosEfectivo", retirosEfectivo);
-        console.log("totalEfectivo", totalEfectivo);
+        const efectivoActualSesion = pagosEfectivo - retirosEfectivo;
+        const efectivoDespuesVenta = efectivoActualSesion + ventaEfectivoActual;
 
-        if (totalEfectivo >= efectivoMaximo) {
+        // Si ya estaba en el límite antes de esta venta, bloquear
+        if (efectivoActualSesion >= efectivoMaximo) {
             this.dialog.add(AlertDialog, {
                 title: _t("Límite de efectivo"),
-                body: _t("Se alcanzó el efectivo máximo permitido en caja."),
+                body: _t("Ya se alcanzó el efectivo máximo permitido en caja. Debe realizar un retiro para continuar."),
             });
             return;
+        }
+
+        // Si con esta venta llega o supera el límite, avisar pero dejar continuar
+        if (ventaEfectivoActual > 0 && efectivoDespuesVenta >= efectivoMaximo) {
+            this.dialog.add(AlertDialog, {
+                title: _t("Límite de efectivo alcanzado"),
+                body: _t("Con esta venta se alcanzó el efectivo máximo permitido en caja. Después de confirmar, deberá realizar un retiro."),
+            });
         }
 
         return await super.validateOrder(isForceValidate);
